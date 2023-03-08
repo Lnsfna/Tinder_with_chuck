@@ -1,39 +1,9 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:tinder_with_chuck/joke.dart';
+import 'package:tinder_with_chuck/card.dart';
 
-
-class Joke {
-
-  String value;
-
-
-  Joke({
-    required this.value,
-  });
-
-  factory Joke.fromJson(Map<String, dynamic> json) {
-    return Joke(
-      value: json['value'],
-    );
-  }
-
-  String get(){
-    return value;
-  }
-   
-}
-
-Future<Joke> fetchJoke() async {
-    var r = await http.get(Uri.parse('https://api.chucknorris.io/jokes/random'));
-    if (r.statusCode == 200) {
-      return Joke.fromJson(jsonDecode(r.body));
-    } else {
-      throw Exception('Loading failed');
-    }
-}
 
 void main() {
   runApp(const MyApp());
@@ -59,30 +29,43 @@ class MyApp extends StatelessWidget {
 }
 
 
-
-
-
-
 class MyAppState extends ChangeNotifier {
   Future<Joke> future = fetchJoke();
   String joke = "";
+  List<BigCard> cards = [];
+
   
-  void extarctJoke(){
-    Future<Joke> future = fetchJoke();
-    future.then((jokeobj) {
+  void updateJoke(int ind, bool like){
+    if (like) {
+      toggleFavorite(ind);
+    }
+    Future<Joke> second = fetchJoke();
+    second.then((jokeobj) {
     joke = jokeobj.get();
+    cards[ind] = BigCard(value: joke);
   }).whenComplete(() => notifyListeners());
   }
 
- Set<String> favorites= Set();
+  void fillCards(){
+    Future<Joke> first = fetchJoke();
+    first.then((jokeobj) {
+    joke = jokeobj.get();
+    cards.add(BigCard(value: joke));
+    });
+    Future<Joke> second = fetchJoke();
+    second.then((jokeobj) {
+    joke = jokeobj.get();
+    cards.add(BigCard(value: joke));
+  }).whenComplete(() => notifyListeners());
 
-  void toggleFavorite() {
-    if (favorites.contains(joke)) {
-      favorites.remove(joke);
-    } else {
-      favorites.add(joke);
-    }
-    notifyListeners();
+  }
+
+ Set<String> favorites= {};
+
+  void toggleFavorite (int ind) {
+    if (!favorites.contains(cards[ind].value)) {
+      favorites.add(cards[ind].value);
+    } 
   }
 
   void removeFavorite(String joke) {
@@ -93,70 +76,8 @@ class MyAppState extends ChangeNotifier {
 
 
     
-class BigCard extends StatelessWidget {
-  const BigCard({
-    Key? key,
-    required this.value,
-  }) : super(key: key);
+bool onInit = true;
 
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    
-    var theme = Theme.of(context);
-    var style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary, fontSize: 20
-    );
-
-    return
-    //  SizedBox(
-    //             width: 400,
-    //             height: 500,
-    //             child: SafeArea(child: Card(
-    //               shadowColor: Color.fromARGB(255, 21, 20, 20).withOpacity(0.5),
-                  
-    //               color: theme.colorScheme.primary,
-
-    //               semanticContainer: true,
-    //               clipBehavior: Clip.antiAliasWithSaveLayer,
-    //               shape: RoundedRectangleBorder(
-    //                 borderRadius: BorderRadius.circular(10.0),
-    //               ),
-    //               elevation: 10,
-    //               margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-    //               child: Container(
-    //                 padding: const EdgeInsets.fromLTRB(20, 265, 20, 20),
-    //                 decoration: BoxDecoration(
-    //                   borderRadius: BorderRadius.circular(10),
-    //                   image: DecorationImage(
-    //                     image: AssetImage('../images/1.jpg'),
-    //                     // fit: BoxFit.fitWidth,
-    //                     alignment: Alignment.topCenter,
-    //                   ),
-    //                 ),
-    //                 child: Text(value, style: style, textAlign: TextAlign.center,),
-    //               ),
-    //             ),
-    //           ),
-    // );
-    SizedBox(
-      height: 500,
-      width: 400,
-      child: Card(
-        color: theme.colorScheme.primary,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 200, 20, 20),
-          child: Text(
-            value,
-            style: style,
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class MyHomePage extends StatefulWidget  {
   const MyHomePage({super.key});
@@ -171,16 +92,28 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
+    
   }
 
   @override
   Widget build(BuildContext context) {
+  if (onInit){
+    var appState = context.watch<MyAppState>();
+
+    onInit = false;
+    appState.fillCards();
+  }
+
+
     return Scaffold(
       appBar: AppBar(
         bottom: TabBar(
           controller: _tabController,
           tabs: const <Widget>[
+            Tab(
+              icon: Icon(Icons.info),
+            ),
             Tab(
               icon: Icon(Icons.home),
             ),
@@ -195,6 +128,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: const <Widget>[
+           Center(
+            child: InfoPage(),
+          ),
           Center(
             child: GeneratorPage(),
           ),
@@ -209,147 +145,78 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 }
 
 
-//   var selectedIndex = 0;
-//   @override
-//   Widget build(BuildContext context) {
-//     Widget page;
-//     switch (selectedIndex) {
-//       case 0:
-//         page = GeneratorPage();
-//         break;
-//       case 1:
-//         page = Placeholder();
-//         break;
-//       default:
-//         throw UnimplementedError('no widget for $selectedIndex');
-//     }
-//     return Scaffold(
-      
-//       body: Row(
-//         children: [
-//           SafeArea(
+class GeneratorPage extends StatefulWidget {
+  const GeneratorPage({
+    Key? key,
+  }) : super(key: key);
 
-            
-//             child: NavigationRail(
-              
-//               extended: false,
-//               destinations: const [
-//                 NavigationRailDestination(
-//                   icon: Icon(Icons.home),
-//                   label: Text('Home'),
-//                 ),
-//                 NavigationRailDestination(
-//                   icon: Icon(Icons.favorite),
-//                   label: Text('Favorites'),
-//                 ),
-//               ],
-//               selectedIndex: selectedIndex,
-//               onDestinationSelected: (value) {
-//                 setState(() {
-//                   selectedIndex = value;
-//                 });              
-//               },
-//             ),
-//           ),
-//           Expanded(
-//             child: Container(
-//               color: Theme.of(context).colorScheme.primaryContainer,
-//               child: page,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  State<GeneratorPage> createState() => _GeneratorPage();
+}
 
-bool onInit = true;
-class GeneratorPage extends StatelessWidget {
-
-
-  const GeneratorPage({super.key});
-  
+class _GeneratorPage extends State<GeneratorPage> {
+  final CardSwiperController controller = CardSwiperController();
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double startDx = 0;
-    
     var appState = context.watch<MyAppState>();
-    String value = appState.joke;
-    if (onInit){
-      appState.extarctJoke();
-      onInit = false;
-
-    }
-
-    IconData icon;
-    if (appState.favorites.contains(value)) {
-      icon = Icons.favorite;
-    } else {
-      icon = Icons.favorite_border;
-    }
 
     return Scaffold(
-      body: Center(
-        child: Column(
+        body: Center(
+          child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+
+
           children: [
-            Draggable(
-            
-              axis: Axis.horizontal,
-              
-              child: BigCard(value: value,),
-              feedback: BigCard(value: value,),
-              childWhenDragging: BigCard(value: value,),
-              
-              onDragEnd: (drag) {
-                if (drag.velocity.pixelsPerSecond.dx > 0){
-                  print("swipe left");
-                  print(drag.offset.distance);
-                  print(drag.offset.direction.ceil());
-
-                  appState.toggleFavorite();
-                  appState.extarctJoke();
-                }
-                else{
-                  print("swipe right");
-                  print(drag.offset.direction.ceil());
-
-
-                  appState.extarctJoke();
-                }
-              },
-
-
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              height:  MediaQuery.of(context).size.height / 2,
+              child: CardSwiper(
+                
+                controller: controller,
+                isVerticalSwipingEnabled: false,
+                cards: appState.cards,
+                onTapDisabled: () {
+                  
+                },
+                onSwipe: (index, direction) {
+                  bool like = false;
+                  if (direction.name == "left"){
+                    like = true;
+                  }
+                
+                  appState.updateJoke(index, like);
+                        
+                },
+              ),
             ),
             const SizedBox(height: 20),
-            
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    appState.toggleFavorite();
-                  },
-                  icon: Icon(icon),
-                  label: const Text('Like'),
-                ),
 
-                const SizedBox(width: 10),
-
-                ElevatedButton(
-                  onPressed: () {
-                    appState.extarctJoke();
-                  },
-                  child: const Text('Next'),
-                ),
-              ],
-            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FloatingActionButton(
+                    onPressed: controller.swipeLeft,
+                    child: const Icon(Icons.favorite_border),
+                  ),
+                  FloatingActionButton(
+                    onPressed: controller.swipeRight,
+                    child: const Text("Next"),
+                  ),
+                  
+                
+                ],
+              ),
+            )
           ],
+          ),
         ),
-      ),
     );
   }
+
 }
 
 class FavoritesPage extends StatelessWidget {
@@ -362,7 +229,7 @@ class FavoritesPage extends StatelessWidget {
 
     if (appState.favorites.isEmpty) {
       return const Center(
-        child: Text('No favorites yet.'),
+        child: Text('No favorite jokes yet.'),
       );
     }
 
@@ -372,21 +239,17 @@ class FavoritesPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(30),
           child: Text('You have '
-              '${appState.favorites.length} favorites:'),
+              '${appState.favorites.length} favorite jokes:'),
         ),
         Expanded(            
             child: SafeArea(
-              minimum: EdgeInsets.fromLTRB(30, 0, 30, 30),
+              minimum: const EdgeInsets.fromLTRB(30, 0, 30, 30),
               child: ListView(
-            // gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            //   maxCrossAxisExtent: 400,
-            //   childAspectRatio: 400 / 80,
-            // ),
             children: [
               for (var pair in appState.favorites)
                 ListTile(
                   leading: IconButton(
-                    icon: Icon(Icons.delete_outline, semanticLabel: 'Delete'),
+                    icon: const Icon(Icons.delete_outline, semanticLabel: 'Delete'),
                     color: theme.colorScheme.primary,
                     onPressed: () {
                       appState.removeFavorite(pair);
@@ -406,3 +269,65 @@ class FavoritesPage extends StatelessWidget {
   }
 }
 
+class InfoPage extends StatelessWidget{
+  const InfoPage({super.key});
+  
+
+  @override
+
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.primary
+    );
+    
+    return Scaffold(
+      body: Column(
+        children: [
+          Container(
+            height: 100,
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 3.0, color: theme.colorScheme.primary),
+
+              )
+            
+          ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+          
+              children: [
+                Icon(Icons.local_fire_department_outlined, size: 50, color: style.color,),
+                
+                Text("Tinder with Chuck", style: style, ),
+                
+              ],
+            ),
+          ),
+
+         Expanded(
+           child: ListView(
+            children:  [
+              ListTile(leading:  Icon(Icons.star_border, color: style.color), title: Text.rich(TextSpan(
+                  style: TextStyle(color: theme.colorScheme.secondary), 
+                  children: const [
+                      TextSpan(text: 'Author:  ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                      TextSpan(text: 'Safina Alina', style: TextStyle(fontSize: 20))
+    ]
+  )),),
+              ListTile(leading:  Icon(Icons.star_border, color: style.color,), title: Text.rich(TextSpan(
+                                style: TextStyle(color: theme.colorScheme.secondary), 
+                                children: const [
+                                    TextSpan(text: 'Repository:  ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                                    TextSpan(text: 'https://github.com/Lnsfna/Tinder_with_chuck', style: TextStyle(fontSize: 20))
+    ]
+  )),),
+                
+             ],
+           ),
+         )])
+              );
+
+
+  }
+}
