@@ -38,8 +38,6 @@ dependencies:
   provider: ^6.0.5
   http: ^0.13.5
   flutter_card_swiper: ^2.0.1
-  appinio_swiper: ^1.1.1
-  example: ^0.0.1
   auto_size_text: ^3.0.0
 
 dev_dependencies:
@@ -54,8 +52,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
+# following page: https://dart.dev/tools/pub/pubspec  
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -65,8 +62,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - images/1.jpg
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -11,16 +11,13 @@ class BigCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     var theme = Theme.of(context);
-    var style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary
-    );
+    var style = theme.textTheme.displayMedium!
+        .copyWith(color: theme.colorScheme.onPrimary);
 
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
-      height:  MediaQuery.of(context).size.height / 2,
-      
+      height: MediaQuery.of(context).size.height / 2,
       child: Card(
         color: theme.colorScheme.primary,
         child: Padding(
@@ -30,8 +27,7 @@ class BigCard extends StatelessWidget {
             style: style,
             textAlign: TextAlign.center,
             maxFontSize: 100,
-            maxLines: 10,
-            // textScaleFactor: 1.2,
+            maxLines: 20,
           ),
         ),
       ),
