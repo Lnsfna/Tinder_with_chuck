@@ -16,7 +16,7 @@ Favorites page
 ![Alt text](/images/favorites_page.png )
 
 ## APK files
-[APK](/build/app/outputs/flutter-apk/)
+[APK](/apks)
 
 
 
