@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:json_annotation/json_annotation.dart';
+part 'joke.g.dart';
 
+@JsonSerializable()
 class Joke {
   String value;
 
@@ -8,15 +11,14 @@ class Joke {
     required this.value,
   });
 
-  factory Joke.fromJson(Map<String, dynamic> json) {
-    return Joke(
-      value: json['value'],
-    );
-  }
+    @override
+  String toString() => value;
 
-  String get() {
-    return value;
-  }
+  factory Joke.fromJson(Map<String, dynamic> json) =>
+      _$JokeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$JokeToJson(this);
+
 }
 
 Future<Joke> fetchJoke() async {
