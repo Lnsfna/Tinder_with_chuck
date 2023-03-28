@@ -51,6 +51,7 @@ dependencies:
   json_annotation: ^4.8.0
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.12.0"
   freezed: ^2.3.2
   build_runner: ^2.3.3
   json_serializable: ^6.6.1
@@ -63,7 +64,13 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+flutter_icons:
+  android: true
+  ios: true
+  image_path_android: "assets/chuck_android.png"
+  image_path_ios: "assets/chuck_ios.png"
 
+  min_sdk_android: 19 # android min sd
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec  
 # The following section is specific to Flutter packages.
