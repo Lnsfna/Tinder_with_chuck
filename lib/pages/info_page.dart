@@ -1,11 +1,17 @@
-import 'package:provider/provider.dart';
+import 'package:flutterfire_ui/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tinder_with_chuck/providers/locale_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tinder_with_chuck/providers/favorites_provider.dart';
 
-class InfoPage extends StatelessWidget {
+class InfoPage extends ConsumerWidget {
   const InfoPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final curLocale = ref.watch(localeProvider).locale;
     var theme = Theme.of(context);
     var style = theme.textTheme.displayMedium!
         .copyWith(color: theme.colorScheme.primary);
@@ -34,41 +40,148 @@ class InfoPage extends StatelessWidget {
         ),
       ),
       Expanded(
-        child: ListView(
+        child: Column(
           children: [
-            ListTile(
-              leading: Icon(Icons.star_border, color: style.color),
-              title: Text.rich(TextSpan(
-                  style: TextStyle(color: theme.colorScheme.secondary),
-                  children: const [
-                    TextSpan(
-                        text: 'Author:  ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20)),
-                    TextSpan(
-                        text: 'Safina Alina', style: TextStyle(fontSize: 20))
-                  ])),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 10,
             ),
-            ListTile(
-              leading: Icon(
-                Icons.star_border,
-                color: style.color,
+            Text.rich(TextSpan(
+                style: TextStyle(color: theme.colorScheme.secondary),
+                children: [
+                  TextSpan(
+                      text: AppLocalizations.of(context)!.emailString,
+                      style:
+                          const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  TextSpan(
+                      text: FirebaseAuth.instance.currentUser!.email,
+                      style: const TextStyle(fontSize: 20))
+                ])),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 10,
+            ),
+            Text(AppLocalizations.of(context)!.appLanguage),
+            SizedBox(
+              width: 150,
+              height: 30,
+              child: ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.language,
+                  size: 24.0,
+                ),
+                onPressed: () {
+                  ref.read(localeProvider.notifier).changeLocale();
+                },
+                label: Text(curLocale.languageCode),
               ),
-              title: Text.rich(TextSpan(
-                  style: TextStyle(color: theme.colorScheme.secondary),
-                  children: const [
-                    TextSpan(
-                        text: 'Repository:  ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20)),
-                    TextSpan(
-                        text: 'https://github.com/Lnsfna/Tinder_with_chuck',
-                        style: TextStyle(fontSize: 20))
-                  ])),
             ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 10,
+            ),
+            SizedBox(
+              width: 150,
+              height: 30,
+              child: ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.logout,
+                  size: 24.0,
+                ),
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                label: Text(AppLocalizations.of(context)!.signOut),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 10,
+            ),
+            SizedBox(
+              width: 150,
+              height: 40,
+              child: ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.delete,
+                  size: 24.0,
+                ),
+                onPressed: () async {
+                  try {
+                    await FirebaseAuth.instance.currentUser!.delete();
+                    ref.read(favJokesProvider.notifier).removeData();
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'requires-recent-login') {
+                      showReauthenticateDialog(
+                          providerConfigs: [const EmailProviderConfiguration()],
+                          context: context,
+                          onSignedIn: () {
+                            Navigator.pop(context);
+
+                            FirebaseAuth.instance.currentUser!.delete();
+                            ref.read(favJokesProvider.notifier).removeData();
+                          });
+                     }
+                    
+                  }
+                },
+                label: Text(AppLocalizations.of(context)!.deleteAccount),
+              ),
+            ),
+
+            // SignOutButton(),
+            // DeleteAccountButton(),
           ],
         ),
       )
     ]));
   }
 }
+// import 'package:flutter/material.dart';
+// import 'package:flutterfire_ui/auth.dart';
+
+// class InfoPage extends StatelessWidget {
+//  const InfoPage({super.key});
+
+//  @override
+//  Widget build(BuildContext context) {
+//    return Scaffold(
+//      appBar: AppBar(
+//        actions: [
+//          IconButton(
+//            icon: const Icon(Icons.person),
+//            onPressed: () {
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute<ProfileScreen>(
+//                  builder: (context) => ProfileScreen(
+//                    appBar: AppBar(
+//                      title: const Text('User Profile'),
+//                    ),
+//                    actions: [
+//                      SignedOutAction((context) {
+//                        Navigator.of(context).pop();
+//                      })
+//                    ],
+//                  ),
+//                ),
+//              );
+//            },
+//          )
+//        ],
+//        automaticallyImplyLeading: false,
+//      ),
+//      body: Center(
+//        child: Column(
+//          children: [
+//            Text(
+//              'Welcome!',
+//              style: Theme.of(context).textTheme.displaySmall,
+//            ),
+//            const SignOutButton(),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
+// }

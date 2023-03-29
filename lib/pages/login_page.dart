@@ -1,4 +1,3 @@
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tinder_with_chuck/pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ class LoginPage extends ConsumerWidget{
   Widget build(BuildContext context, WidgetRef ref) {
     FirebaseAuth.instance.authStateChanges().listen((User? user){
       if (user != null){
-        print("here");
         ref.read(favJokesProvider.notifier).updateAuthState();
       }
 
@@ -23,13 +21,13 @@ class LoginPage extends ConsumerWidget{
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return SignInScreen(
-            providerConfigs: const [
+          return const SignInScreen(
+            providerConfigs: [
               EmailProviderConfiguration(),
             ],
           );
         }
-        return MyHomePage();
+        return const MyHomePage();
       },
           );   
   }

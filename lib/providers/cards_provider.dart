@@ -17,9 +17,8 @@ abstract class CardState with _$CardState {
 final cardsProvider = StateNotifierProvider<CardsNotifier, CardState>((ref) => CardsNotifier());
 
 class CardsNotifier extends StateNotifier<CardState> {
-  CardsNotifier() : super(CardState()) {
+  CardsNotifier() : super(const CardState()) {
     fillCards();
-    print(state.cards);
   }
   void fillCards() {
     state = state.copyWith(isLoading: true);

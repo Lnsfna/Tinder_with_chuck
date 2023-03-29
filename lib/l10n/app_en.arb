@@ -1,0 +1,47 @@
+{
+  "next": "Next",
+  "@next": {
+    "description": "generator_page next button"
+  },
+  "emailString": "Your email: ",
+  "@emailString":{
+    "description": "info_page email text"
+  },
+  "info": "info",
+  "@info":{
+    "description": "info button text"
+  },
+  "home": "home",
+  "@home":{
+    "description": "home button text"
+  },
+  "favorites": "favorites",
+  "@favorites":{
+    "description": "favorites button text"
+  },
+   "appLanguage": "Change app language:",
+  "@appLanguage":{
+    "description": "info_page app Language text"
+  },
+  
+   "jokeCount": "{count, plural, zero{No favorite jokes yet} one{You have 1 favorite joke} other{You have {count} favorite jokes}}",
+   "@jokeCount":{
+    "description": "favorites_page favorites count text",
+    "placeholders": {
+    "count": {
+      "type": "num",
+      "format": "compact"
+    }
+    }
+  },
+  "signOut": "Sign out",
+  "@signOut":{
+    "description": "info_page sign out button text"
+  },
+  "deleteAccount": "Delete account",
+  "@deleteAccount":{
+    "description": "info_page delete account button text"
+  }
+}
+   
+  

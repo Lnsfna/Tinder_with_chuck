@@ -3,6 +3,7 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tinder_with_chuck/providers/favorites_provider.dart';
 import 'package:tinder_with_chuck/providers/cards_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
@@ -18,6 +19,7 @@ class GeneratorPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cards = ref.watch(cardsProvider).cards;
     final isLoading = ref.watch(cardsProvider).isLoading;
+    
 
     return isLoading
     ? const Center(
@@ -42,7 +44,6 @@ class GeneratorPage extends ConsumerWidget {
                   if (direction == CardSwiperDirection.left) {
                     ref.read(favJokesProvider.notifier).toggleFavorite(cards[index].value);
                   }
-                  print(index);
                   ref.read(cardsProvider.notifier).updateJoke(index);
                 },
               ),
@@ -59,7 +60,7 @@ class GeneratorPage extends ConsumerWidget {
                   ),
                   FloatingActionButton(
                     onPressed: controller.swipeRight,
-                    child: const Text("Next"),
+                    child:  Text(AppLocalizations.of(context)!.next),
                   ),
                 ],
               ),

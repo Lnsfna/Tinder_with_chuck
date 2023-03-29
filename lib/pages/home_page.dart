@@ -3,6 +3,8 @@ import 'package:tinder_with_chuck/pages/info_page.dart';
 import 'package:tinder_with_chuck/pages/generator_page.dart';
 import 'package:tinder_with_chuck/pages/favorites_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 
 
@@ -20,7 +22,7 @@ class MyHomePage extends ConsumerWidget {
     Widget curPage;
     switch (page){
       case 0:
-      curPage = const InfoPage();
+      curPage =  const InfoPage();
       break;
       case 1:
       curPage =  GeneratorPage();
@@ -39,18 +41,18 @@ class MyHomePage extends ConsumerWidget {
             Expanded(child: curPage),
             SafeArea(
               child: BottomNavigationBar(
-                items: const [
+                items:  [
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.info),
-                    label: "info",
+                    icon: const Icon(Icons.info),
+                    label:  AppLocalizations.of(context)!.info,
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: "home",
+                    icon: const Icon(Icons.home),
+                    label:  AppLocalizations.of(context)!.home,
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite),
-                    label: "favorites",
+                    icon: const Icon(Icons.favorite),
+                    label: AppLocalizations.of(context)!.favorites,
                   ),
                 ],
                 currentIndex: page,

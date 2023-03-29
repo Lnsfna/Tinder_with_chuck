@@ -1,11 +1,12 @@
 import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 part 'favorites_provider.freezed.dart';
+
 @freezed
 abstract class FavJokesState with _$FavJokesState {
   const factory FavJokesState({
@@ -15,61 +16,81 @@ abstract class FavJokesState with _$FavJokesState {
 
   const FavJokesState._();
 }
-final favJokesProvider = StateNotifierProvider<FavJokesNotifier, FavJokesState>((ref) => FavJokesNotifier());
+
+final favJokesProvider = StateNotifierProvider<FavJokesNotifier, FavJokesState>(
+    (ref) => FavJokesNotifier());
 
 class FavJokesNotifier extends StateNotifier<FavJokesState> {
   String? _uid;
   DatabaseReference? _db;
 
-  FavJokesNotifier() : super(FavJokesState()){
-    final _uid = FirebaseAuth.instance.currentUser!.uid;
-    final _db = FirebaseDatabase.instance.ref("users");
+  FavJokesNotifier() : super(const FavJokesState()) {
+     _uid = FirebaseAuth.instance.currentUser!.uid;
+     _db = FirebaseDatabase.instance.ref("users");
 
     loadFavorites();
   }
 
-  void updateAuthState(){
-    
-   _uid = FirebaseAuth.instance.currentUser!.uid;
-   _db = FirebaseDatabase.instance.ref("users");
-   print(_uid);
-   print(_db);
-
-   loadFavorites();
+  void updateAuthState() {
+    _uid = FirebaseAuth.instance.currentUser!.uid;
+    _db = FirebaseDatabase.instance.ref("users");
+    loadFavorites();
   }
 
-  void loadFavorites() async{
-      if (_uid != null && _db != null){
-        try{
-          final snapshot = await _db!.child("$_uid/user_favorites").get();
-          if (snapshot.exists) {
+  void loadFavorites() async {
+    if (_uid != null && _db != null) {
+      try {
+        final snapshot = await _db!.child("$_uid/user_favorites").get();
+        if (snapshot.exists) {
           List<dynamic> jsonFav = json.decode(jsonEncode(snapshot.value));
-          List<String> tempFav=
-              jsonFav.map((e) => e.toString()).toList();
+          List<String> tempFav = jsonFav.map((e) => e.toString()).toList();
           state = state.copyWith(favorites: tempFav);
         } else {
           _updateDb([]);
           state = state.copyWith(favorites: []);
         }
-
-        }on FirebaseAuthException catch (err){
+      } on FirebaseAuthException catch (err) {
+        if (kDebugMode) {
           print(err);
         }
-
-      }else{
+      }
+    } else {
+      if (kDebugMode) {
         print("user or db are not defined");
       }
+    }
   }
-  void _updateDb(List<String> jokes){
-    if (_uid != null && _db != null){
-      try{
-        _db!.child(_uid!).update({"user_favorites" : jokes});
-      }on FirebaseAuthException catch (err){
+
+  void removeData() {
+    if (_uid != null && _db != null) {
+      try {
+        _db!.child(_uid!).remove();
+      } on FirebaseAuthException catch (err) {
+        if (kDebugMode) {
           print(err);
         }
-    }else{
+      }
+    } else {
+      if (kDebugMode) {
         print("user or db are not defined");
       }
+    }
+  }
+
+  void _updateDb(List<String> jokes) {
+    if (_uid != null && _db != null) {
+      try {
+        _db!.child(_uid!).update({"user_favorites": jokes});
+      } on FirebaseAuthException catch (err) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
+    } else {
+      if (kDebugMode) {
+        print("user or db are not defined");
+      }
+    }
   }
 
   void toggleFavorite(String value) {
@@ -81,20 +102,17 @@ class FavJokesNotifier extends StateNotifier<FavJokesState> {
     }
     _updateDb(tempFav);
     state = state.copyWith(isLoading: false, favorites: tempFav);
-
   }
 
   void removeFavorite(String jokeToRem) {
     state = state.copyWith(isLoading: true);
     List<String> tempFav = [];
     for (final fav in state.favorites) {
-      if (fav != jokeToRem){
+      if (fav != jokeToRem) {
         tempFav.add(fav);
       }
     }
     _updateDb(tempFav);
     state = state.copyWith(isLoading: false, favorites: tempFav);
-
   }
-
 }

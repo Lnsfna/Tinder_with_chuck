@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tinder_with_chuck/providers/favorites_provider.dart';
 
 
@@ -12,8 +12,8 @@ class FavoritesPage extends ConsumerWidget {
     var theme = Theme.of(context);
     var favorites = ref.watch(favJokesProvider).favorites;
     if (favorites.isEmpty) {
-      return const Center(
-        child: Text('No favorite jokes yet.'),
+      return  Center(
+        child:  Text(AppLocalizations.of(context)!.jokeCount(0)),
       );
     }
 
@@ -22,8 +22,7 @@ class FavoritesPage extends ConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(30),
-          child: Text('You have '
-              '${favorites.length} favorite jokes:'),
+          child: Text(AppLocalizations.of(context)!.jokeCount(favorites.length)),
         ),
         Expanded(
           child: SafeArea(
