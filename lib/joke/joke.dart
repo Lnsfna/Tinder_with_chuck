@@ -11,14 +11,12 @@ class Joke {
     required this.value,
   });
 
-    @override
+  @override
   String toString() => value;
 
-  factory Joke.fromJson(Map<String, dynamic> json) =>
-      _$JokeFromJson(json);
+  factory Joke.fromJson(Map<String, dynamic> json) => _$JokeFromJson(json);
 
   Map<String, dynamic> toJson() => _$JokeToJson(this);
-
 }
 
 Future<Joke> fetchJoke() async {

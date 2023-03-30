@@ -5,17 +5,15 @@ import 'package:flutterfire_ui/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tinder_with_chuck/providers/favorites_provider.dart';
 
-
-class LoginPage extends ConsumerWidget{
-    const LoginPage ({super.key});
+class LoginPage extends ConsumerWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    FirebaseAuth.instance.authStateChanges().listen((User? user){
-      if (user != null){
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
         ref.read(favJokesProvider.notifier).updateAuthState();
       }
-
     });
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
@@ -29,6 +27,6 @@ class LoginPage extends ConsumerWidget{
         }
         return const MyHomePage();
       },
-          );   
+    );
   }
 }

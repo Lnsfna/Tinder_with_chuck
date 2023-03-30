@@ -41,6 +41,10 @@
   "deleteAccount": "Delete account",
   "@deleteAccount":{
     "description": "info_page delete account button text"
+  },
+  "noInternet": "No internet connection",
+  "@noInternet":{
+    "description": "No internet connection text"
   }
 }
    

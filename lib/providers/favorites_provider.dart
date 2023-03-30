@@ -25,8 +25,8 @@ class FavJokesNotifier extends StateNotifier<FavJokesState> {
   DatabaseReference? _db;
 
   FavJokesNotifier() : super(const FavJokesState()) {
-     _uid = FirebaseAuth.instance.currentUser!.uid;
-     _db = FirebaseDatabase.instance.ref("users");
+    _uid = FirebaseAuth.instance.currentUser!.uid;
+    _db = FirebaseDatabase.instance.ref("users");
 
     loadFavorites();
   }

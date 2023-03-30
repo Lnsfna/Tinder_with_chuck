@@ -99,7 +99,7 @@ class __$$_FavJokesStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_FavJokesState extends _FavJokesState {
+class _$_FavJokesState extends _FavJokesState with DiagnosticableTreeMixin {
   const _$_FavJokesState(
       {final List<String> favorites = const [], this.isLoading = true})
       : _favorites = favorites,
@@ -119,8 +119,17 @@ class _$_FavJokesState extends _FavJokesState {
   final dynamic isLoading;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'FavJokesState(favorites: $favorites, isLoading: $isLoading)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'FavJokesState'))
+      ..add(DiagnosticsProperty('favorites', favorites))
+      ..add(DiagnosticsProperty('isLoading', isLoading));
   }
 
   @override

@@ -51,8 +51,8 @@ class InfoPage extends ConsumerWidget {
                 children: [
                   TextSpan(
                       text: AppLocalizations.of(context)!.emailString,
-                      style:
-                          const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20)),
                   TextSpan(
                       text: FirebaseAuth.instance.currentUser!.email,
                       style: const TextStyle(fontSize: 20))
@@ -63,17 +63,27 @@ class InfoPage extends ConsumerWidget {
             ),
             Text(AppLocalizations.of(context)!.appLanguage),
             SizedBox(
-              width: 150,
+              width: 180,
               height: 30,
-              child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.language,
-                  size: 24.0,
+              child: ElevatedButton(
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.language,
+                      size: 24.0,
+                    ),
+                    SizedBox(
+                      width: 5,
+                      height: 30,
+                    ),
+                    Text(curLocale.languageCode),
+                  ],
                 ),
                 onPressed: () {
                   ref.read(localeProvider.notifier).changeLocale();
                 },
-                label: Text(curLocale.languageCode),
               ),
             ),
             SizedBox(
@@ -81,17 +91,27 @@ class InfoPage extends ConsumerWidget {
               height: 10,
             ),
             SizedBox(
-              width: 150,
+              width: 180,
               height: 30,
-              child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.logout,
-                  size: 24.0,
+              child: ElevatedButton(
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.logout,
+                      size: 24.0,
+                    ),
+                    SizedBox(
+                      width: 5,
+                      height: 30,
+                    ),
+                    Text(AppLocalizations.of(context)!.signOut),
+                  ],
                 ),
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                 },
-                label: Text(AppLocalizations.of(context)!.signOut),
               ),
             ),
             SizedBox(
@@ -99,12 +119,23 @@ class InfoPage extends ConsumerWidget {
               height: 10,
             ),
             SizedBox(
-              width: 150,
-              height: 40,
-              child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.delete,
-                  size: 24.0,
+              width: 180,
+              height: 30,
+              child: ElevatedButton(
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.delete,
+                      size: 24.0,
+                    ),
+                    SizedBox(
+                      width: 5,
+                      height: 30,
+                    ),
+                    Text(AppLocalizations.of(context)!.deleteAccount),
+                  ],
                 ),
                 onPressed: () async {
                   try {
@@ -121,11 +152,9 @@ class InfoPage extends ConsumerWidget {
                             FirebaseAuth.instance.currentUser!.delete();
                             ref.read(favJokesProvider.notifier).removeData();
                           });
-                     }
-                    
+                    }
                   }
                 },
-                label: Text(AppLocalizations.of(context)!.deleteAccount),
               ),
             ),
 

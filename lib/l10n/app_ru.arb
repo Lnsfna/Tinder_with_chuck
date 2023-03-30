@@ -4,10 +4,11 @@
     "info": "инфо",
     "home": "главная",
     "favorites": "избранное",
-    "appLanguage": "Изменить язык приложения",
+    "appLanguage": "Изменить язык приложения:",
     "jokeCount": "{count, plural, zero{Нет избранных шуток} one{У вас {count} избранная шутка} few{У вас {count} избранные шутки} many{У вас {count} избранных шуток} other{У вас {count} избранных шуток}}",
     "signOut": "Выйти",
-    "deleteAccount": "Удалить аккаунт"
+    "deleteAccount": "Удалить аккаунт",
+    "noInternet": "Отсутсвует подключение к интернету"
 }
 
  
