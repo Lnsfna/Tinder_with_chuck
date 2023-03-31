@@ -20,9 +20,8 @@ final cardsProvider =
 CardSwiperController controller = CardSwiperController();
 
 class CardsNotifier extends StateNotifier<CardState> {
-  CardsNotifier() : super(CardState()) {
+  CardsNotifier() : super(const CardState()) {
     fillCards();
-    print(state.cards);
   }
   void loadNewController() {
     controller = CardSwiperController();

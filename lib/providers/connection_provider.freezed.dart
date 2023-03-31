@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ConnectivityStatus {
-  Statuses get cur_status => throw _privateConstructorUsedError;
+  Statuses get curStatus => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ConnectivityStatusCopyWith<ConnectivityStatus> get copyWith =>
@@ -29,7 +29,7 @@ abstract class $ConnectivityStatusCopyWith<$Res> {
           ConnectivityStatus value, $Res Function(ConnectivityStatus) then) =
       _$ConnectivityStatusCopyWithImpl<$Res, ConnectivityStatus>;
   @useResult
-  $Res call({Statuses cur_status});
+  $Res call({Statuses curStatus});
 }
 
 /// @nodoc
@@ -45,12 +45,12 @@ class _$ConnectivityStatusCopyWithImpl<$Res, $Val extends ConnectivityStatus>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? cur_status = null,
+    Object? curStatus = null,
   }) {
     return _then(_value.copyWith(
-      cur_status: null == cur_status
-          ? _value.cur_status
-          : cur_status // ignore: cast_nullable_to_non_nullable
+      curStatus: null == curStatus
+          ? _value.curStatus
+          : curStatus // ignore: cast_nullable_to_non_nullable
               as Statuses,
     ) as $Val);
   }
@@ -64,7 +64,7 @@ abstract class _$$_ConnectivityStatusCopyWith<$Res>
       __$$_ConnectivityStatusCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Statuses cur_status});
+  $Res call({Statuses curStatus});
 }
 
 /// @nodoc
@@ -78,12 +78,12 @@ class __$$_ConnectivityStatusCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? cur_status = null,
+    Object? curStatus = null,
   }) {
     return _then(_$_ConnectivityStatus(
-      cur_status: null == cur_status
-          ? _value.cur_status
-          : cur_status // ignore: cast_nullable_to_non_nullable
+      curStatus: null == curStatus
+          ? _value.curStatus
+          : curStatus // ignore: cast_nullable_to_non_nullable
               as Statuses,
     ));
   }
@@ -92,16 +92,16 @@ class __$$_ConnectivityStatusCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ConnectivityStatus extends _ConnectivityStatus {
-  const _$_ConnectivityStatus({this.cur_status = Statuses.NotDetermined})
+  const _$_ConnectivityStatus({this.curStatus = Statuses.notDetermined})
       : super._();
 
   @override
   @JsonKey()
-  final Statuses cur_status;
+  final Statuses curStatus;
 
   @override
   String toString() {
-    return 'ConnectivityStatus(cur_status: $cur_status)';
+    return 'ConnectivityStatus(curStatus: $curStatus)';
   }
 
   @override
@@ -109,12 +109,12 @@ class _$_ConnectivityStatus extends _ConnectivityStatus {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ConnectivityStatus &&
-            (identical(other.cur_status, cur_status) ||
-                other.cur_status == cur_status));
+            (identical(other.curStatus, curStatus) ||
+                other.curStatus == curStatus));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, cur_status);
+  int get hashCode => Object.hash(runtimeType, curStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -125,12 +125,12 @@ class _$_ConnectivityStatus extends _ConnectivityStatus {
 }
 
 abstract class _ConnectivityStatus extends ConnectivityStatus {
-  const factory _ConnectivityStatus({final Statuses cur_status}) =
+  const factory _ConnectivityStatus({final Statuses curStatus}) =
       _$_ConnectivityStatus;
   const _ConnectivityStatus._() : super._();
 
   @override
-  Statuses get cur_status;
+  Statuses get curStatus;
   @override
   @JsonKey(ignore: true)
   _$$_ConnectivityStatusCopyWith<_$_ConnectivityStatus> get copyWith =>

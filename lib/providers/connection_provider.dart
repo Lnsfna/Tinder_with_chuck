@@ -1,17 +1,15 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 part 'connection_provider.freezed.dart';
 
-enum Statuses { NotDetermined, isConnected, isDisonnected }
+enum Statuses { notDetermined, isConnected, isDisonnected }
 
 @freezed
 abstract class ConnectivityStatus with _$ConnectivityStatus {
   const factory ConnectivityStatus({
-    @Default(Statuses.NotDetermined) Statuses cur_status,
+    @Default(Statuses.notDetermined) Statuses curStatus,
   }) = _ConnectivityStatus;
 
   const ConnectivityStatus._();
@@ -31,12 +29,12 @@ class ConnectivityStatusNotifier extends StateNotifier<ConnectivityStatus> {
       var r =
           await http.get(Uri.parse('https://api.chucknorris.io/jokes/random'));
       if (r.statusCode == 200) {
-        state = state.copyWith(cur_status: Statuses.isConnected);
+        state = state.copyWith(curStatus: Statuses.isConnected);
       } else {
         throw Exception('Loading failed');
       }
     } on SocketException {
-      state = state.copyWith(cur_status: Statuses.isDisonnected);
+      state = state.copyWith(curStatus: Statuses.isDisonnected);
     }
   }
 }

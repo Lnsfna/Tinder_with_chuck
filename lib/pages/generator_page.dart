@@ -15,9 +15,9 @@ class GeneratorPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final con = ref.watch(connectivityStatusProviders).cur_status;
+    final con = ref.watch(connectivityStatusProviders).curStatus;
     ref.read(connectivityStatusProviders.notifier).checkConnection();
-    if (con == Statuses.isDisonnected || con == Statuses.NotDetermined) {
+    if (con == Statuses.isDisonnected || con == Statuses.notDetermined) {
       disposed = true;
       return Center(
         child: Text(AppLocalizations.of(context)!.noInternet),

@@ -74,7 +74,7 @@ class InfoPage extends ConsumerWidget {
                       Icons.language,
                       size: 24.0,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                       height: 30,
                     ),
@@ -102,7 +102,7 @@ class InfoPage extends ConsumerWidget {
                       Icons.logout,
                       size: 24.0,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                       height: 30,
                     ),
@@ -130,7 +130,7 @@ class InfoPage extends ConsumerWidget {
                       Icons.delete,
                       size: 24.0,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                       height: 30,
                     ),
