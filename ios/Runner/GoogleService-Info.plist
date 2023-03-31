@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>350559133624-htoard3tma2squ487q1heh6kc78vjhje.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.350559133624-htoard3tma2squ487q1heh6kc78vjhje</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCuyGLoy8XWlIyGxJ7eV_GINyqWDdhXp8E</string>
+	<key>GCM_SENDER_ID</key>
+	<string>350559133624</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.tinderWithChuck</string>
+	<key>PROJECT_ID</key>
+	<string>tinder-with-chuck-jokes</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tinder-with-chuck-jokes.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:350559133624:ios:866045d086e55829ecf94d</string>
+</dict>
+</plist>

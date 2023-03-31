@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "350559133624",
+    "firebase_url": "https://tinder-with-chuck-jokes-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "tinder-with-chuck-jokes",
+    "storage_bucket": "tinder-with-chuck-jokes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350559133624:android:1c42ec332da10d56ecf94d",
+        "android_client_info": {
+          "package_name": "com.example.tinder_with_chuck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350559133624-d27sp8ll5dagmdehhljfgo5l4k43ds53.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvSqsdBxB0LKkJaTSWJKFVQtX_fpVUq0c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350559133624-d27sp8ll5dagmdehhljfgo5l4k43ds53.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "350559133624-htoard3tma2squ487q1heh6kc78vjhje.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tinderWithChuck"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
